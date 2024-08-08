@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {  StatusBar, Text, View } from 'react-native';
+import LoginScreen from './app/screens/LoginScreen';
+import { ClerkProvider, SignedIn, SignedOut } from '@clerk/clerk-expo';
+import UserProfile from './app/screens/UserProfile';
 
 export default function App() {
+  const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+  <ClerkProvider publishableKey={publishableKey}>    
+    <View className="flex-1 bg-white">
+      <StatusBar style={'auto'} />
+      <SignedIn>
+        <UserProfile/>
+      </SignedIn>
+      <SignedOut>
+        <LoginScreen/>        
+      </SignedOut>
     </View>
+  </ClerkProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
